@@ -1,5 +1,5 @@
 import dbBaseClient from '../../dbBaseClient'
-class levelClient extends dbBaseClient {
+export default class levelClient extends dbBaseClient {
     ping(): Promise<boolean> {
         throw new Error("Method not implemented.");
     }   

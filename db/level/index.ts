@@ -1,8 +1,10 @@
 import level from 'level';
 import dbBase from '../../dbBase'
+import levelClient from './client'
+import levelServer from './server'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 
-export class LevelDB extends dbBase {
+export default class LevelDB extends dbBase {
     dbMap: Map<string,level>;
     getDB(dbName:string):level {
         if(this.dbMap.has(dbName)) {
@@ -25,15 +27,11 @@ export class LevelDB extends dbBase {
         return await this.getDB(dbName).del(key);
     }
 
-    getServer():dbBaseServer {
-        throw new Error("Method not implemented.");
-
+    getServer():levelServer {
+        return new levelServer(this);
     }
-    getClient():dbBaseClient {
-        throw new Error("Method not implemented.");
-
+    getClient():levelClient {
+        return new levelClient();
     }
     
 }
-
-export default LevelDB;

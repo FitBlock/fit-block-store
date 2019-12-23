@@ -3,12 +3,17 @@
         "module": "commonjs",
         "target":"ESNext",
         "outDir": "./build/",
+        "rootDirs": [
+            "src/views",
+            "generated/templates/views"
+          ]
     },
     "include": [
         "index.ts",
         "dbBaseServer.ts",
         "dbFactory.ts",
         "db/**/*",
+        "test/**/*",
     ],
     "exclude": [
         "node_modules",

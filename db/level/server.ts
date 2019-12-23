@@ -7,7 +7,7 @@ import {
 } from 'grpc'
 import LevelDB from './index'
 import {loadSync as protoLoaderLoadSync} from '@grpc/proto-loader'
-class levelServer extends dbBaseServer {
+export default class levelServer extends dbBaseServer {
     levelDB: LevelDB;
     constructor(levelDB:LevelDB) {
         super();
@@ -26,8 +26,40 @@ class levelServer extends dbBaseServer {
             });
         const level_proto = grpcLoadPackageDefinition(packageDefinition).level;
         const server = new grpcServer();
-        server.addService(level_proto.Level.service, RpcServer.getServer(this) );
-        server.bind('0.0.0.0:50051', grpcServerCredentials.createInsecure());
+        server.addService(level_proto['Level'].service, {
+            pong: (call, callback) => {
+                callback(null, {ok: call.request.ok});
+            },
+            get: async (call, callback) => {
+                try {
+                    const value = await this.levelDB.get(call.request.dbName,call.request.key)
+                    callback(null, {value});
+                } catch(err) {
+                    callback(err);
+                }
+            },
+            put: async (call, callback) => {
+                try {
+                    const value = await this.levelDB.put(
+                        call.request.key.dbName,
+                        call.request.key.key,
+                        call.request.value.value,
+                        )
+                    callback(null, {ok: value});
+                } catch(err) {
+                    callback(err);
+                }
+            },
+            del: async (call, callback) => {
+                try {
+                    const value = await this.levelDB.del(call.request.dbName,call.request.key)
+                    callback(null, {ok: value});
+                } catch(err) {
+                    callback(err);
+                }
+            },
+        });
+        server.bind(`${ip}:${port}`, grpcServerCredentials.createInsecure());
         server.start();
     }
 }
