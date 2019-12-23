@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package level;
+
+service Level {
+  rpc get (LevelKey) returns (LevelValue) {}
+  rpc put (LevelKeyValue) returns (isOk) {}
+  rpc del (LevelKey) returns (isOk) {}
+  rpc pong (isOk) returns (isOk) {}
+}
+
+message isOk {
+  bool ok = 1;
+}
+message LevelKeyValue {
+    LevelKey key = 1;
+    LevelValue value = 2;
+}
+message LevelKey {
+  string dbName = 1;
+  string key = 2;
+}
+
+message LevelValue {
+  string value = 1;
+}

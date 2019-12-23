@@ -2,11 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "target":"ESNext",
-        "outDir": "./build/",
-        "rootDirs": [
-            "src/views",
-            "generated/templates/views"
-          ]
+        "outDir": "./build/"
     },
     "include": [
         "index.ts",
