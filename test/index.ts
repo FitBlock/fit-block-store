@@ -3,7 +3,10 @@ import level from '../index'
 let testUnit = {
     [Symbol('test.getServer')] : async function() {
         const server = level.getServer();
-        server.listen('127.0.0.1',5657)
+        await server.listen('127.0.0.1',5657);
+        const client = level.getClient();
+        await client.conect('127.0.0.1',5657)
+        
     },
 }
 

@@ -6,7 +6,7 @@ service Level {
   rpc get (LevelKey) returns (LevelValue) {}
   rpc put (LevelKeyValue) returns (isOk) {}
   rpc del (LevelKey) returns (isOk) {}
-  rpc pong (isOk) returns (isOk) {}
+  rpc ping (isOk) returns (isOk) {}
 }
 
 message isOk {

@@ -5,18 +5,18 @@ import {
     Server as grpcServer,
     ServerCredentials as grpcServerCredentials,
 } from 'grpc'
-import LevelDB from './index'
 import {loadSync as protoLoaderLoadSync} from '@grpc/proto-loader'
+import LevelDB from './index'
 export default class levelServer extends dbBaseServer {
     levelDB: LevelDB;
     constructor(levelDB:LevelDB) {
         super();
         this.levelDB = levelDB;
     }
-    listen(ip:string,port: number):void {
-        var levelProto = pathJoin(__dirname,'level.proto');;
+    async listen(ip:string,port: number):Promise<boolean> {
+        const levelProto = pathJoin(__dirname,'level.proto');;
         
-        var packageDefinition = protoLoaderLoadSync(
+        const packageDefinition = protoLoaderLoadSync(
             levelProto,
             {keepCase: true,
             longs: String,
@@ -27,7 +27,7 @@ export default class levelServer extends dbBaseServer {
         const level_proto = grpcLoadPackageDefinition(packageDefinition).level;
         const server = new grpcServer();
         server.addService(level_proto['Level'].service, {
-            pong: (call, callback) => {
+            ping: (call, callback) => {
                 callback(null, {ok: call.request.ok});
             },
             get: async (call, callback) => {
@@ -61,5 +61,6 @@ export default class levelServer extends dbBaseServer {
         });
         server.bind(`${ip}:${port}`, grpcServerCredentials.createInsecure());
         server.start();
+        return true;
     }
 }

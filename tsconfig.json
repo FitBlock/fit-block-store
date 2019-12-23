@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "target":"ESNext",
-        "outDir": "./build/"
+        "outDir": "./build/",
     },
     "include": [
         "index.ts",
