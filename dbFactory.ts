@@ -2,7 +2,7 @@ import Level from './db/level'
 import dbBase from './dbBase'
 const instanceMap: Map<String, any> = new Map(); 
 export default class dbFactory {
-    static getInstance(name:string):dbBase {
+    static getDBInstance(name:string):dbBase {
         if(instanceMap.has(name)) {
             return instanceMap.get(name);
         }
