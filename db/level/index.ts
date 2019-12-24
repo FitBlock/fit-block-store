@@ -1,30 +1,50 @@
-import level from 'level';
+import levelup from 'levelup';
+import leveldown from 'leveldown';
 import dbBase from '../../dbBase'
 import levelClient from './client'
 import levelServer from './server'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 
 export default class LevelDB extends dbBase {
-    dbMap: Map<string,level>;
-    getDB(dbName:string):level {
+    dbMap: Map<string,levelup>;
+    constructor() {
+        super();
+        this.dbMap = new Map();
+    }
+    getDB(dbName:string):levelup {
         if(this.dbMap.has(dbName)) {
             return this.dbMap.get(dbName);
         }
         const dbPath = pathJoin(pathDirname(pathDirname(__dirname)),'data',dbName);
-        const db = level(dbPath);
+        const db = levelup(leveldown(dbPath));
         this.dbMap.set(dbName, db);
         return db;
     }
-    async put(dbName:string,key: string, value:string):Promise<boolean> {
-        return await this.getDB(dbName).put(key, value);
+    put(dbName:string,key: string, value:string):Promise<boolean> {
+        return new Promise((reslove,reject)=>{
+            this.getDB(dbName).put(key, value,(err)=>{
+                if(err){return reject(err);}
+                return reslove(true);
+            });
+        })
     }
 
-    async get(dbName:string,key: string):Promise<string>  {
-        return await this.getDB(dbName).get(key);
+    get(dbName:string,key: string):Promise<string>  {
+        return new Promise((reslove,reject)=>{
+            this.getDB(dbName).get(key,(err, value)=>{
+                if(err){return reject(err);}
+                return reslove(value);
+            });
+        })
     }
 
-    async del(dbName:string,key: string):Promise<boolean>  {
-        return await this.getDB(dbName).del(key);
+    del(dbName:string,key: string):Promise<boolean>  {
+        return new Promise((reslove,reject)=>{
+            this.getDB(dbName).del(key,(err)=>{
+                if(err){return reject(err);}
+                return reslove(true);
+            });
+        })
     }
 
     getServer():levelServer {

@@ -9,6 +9,7 @@ import {loadSync as protoLoaderLoadSync} from '@grpc/proto-loader'
 import LevelDB from './index'
 export default class levelServer extends dbBaseServer {
     levelDB: LevelDB;
+    server: grpcServer;
     constructor(levelDB:LevelDB) {
         super();
         this.levelDB = levelDB;
@@ -25,8 +26,8 @@ export default class levelServer extends dbBaseServer {
             oneofs: true
             });
         const level_proto = grpcLoadPackageDefinition(packageDefinition).level;
-        const server = new grpcServer();
-        server.addService(level_proto['Level'].service, {
+        this.server = new grpcServer();
+        this.server.addService(level_proto['Level'].service, {
             ping: (call, callback) => {
                 callback(null, {ok: call.request.ok});
             },
@@ -59,8 +60,16 @@ export default class levelServer extends dbBaseServer {
                 }
             },
         });
-        server.bind(`${ip}:${port}`, grpcServerCredentials.createInsecure());
-        server.start();
+        this.server.bind(`${ip}:${port}`, grpcServerCredentials.createInsecure());
+        this.server.start();
         return true;
+    }
+    close():Promise<boolean> {
+        return new Promise((reslove,reject)=>{
+            this.server.tryShutdown(()=>{
+                reslove(true)
+            })
+        })
+        
     }
 }

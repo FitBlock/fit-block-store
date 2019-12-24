@@ -6,9 +6,46 @@ import {
 } from 'grpc'
 import {loadSync as protoLoaderLoadSync} from '@grpc/proto-loader'
 export default class levelClient extends dbBaseClient {
-    conect(ip: string, port: number): Promise<boolean> {
+    client: any;
+    async setDB(dbName:string):Promise<void> {
+        this.dbName = dbName;
+    }
+    ping():Promise<boolean> {
+        return new Promise((resolve,reject)=>{
+            this.client.ping({ok: true}, (err, response)=> {
+                if(err){return reject(err)}
+                return resolve(response.ok);
+            });
+        })
+    }
+    put(key: string, value:string):Promise<boolean> {
+        return new Promise((resolve,reject)=>{
+            this.client.put({key:{dbName:this.dbName,key},value:{value}}, (err, response)=> {
+                if(err){return reject(err)}
+                return resolve(response.ok);
+            });
+        })
+    }
+    get(key: string):Promise<string>  {
+        return new Promise((resolve,reject)=>{
+            this.client.get({dbName:this.dbName,key}, (err, response)=> {
+                if(err){return reject(err)}
+                return resolve(response.value);
+            });
+        })
+    }
+
+    del(key: string):Promise<boolean>  {
+        return new Promise((resolve,reject)=>{
+            this.client.del({dbName:this.dbName,key}, (err, response)=> {
+                if(err){return reject(err)}
+                return resolve(response.ok);
+            });
+        })
+    }
+
+    async conect(ip: string, port: number,dbName:string='default'): Promise<boolean> {
         const levelProto = pathJoin(__dirname,'level.proto');;
-        
         const packageDefinition = protoLoaderLoadSync(
             levelProto,
             {keepCase: true,
@@ -18,16 +55,16 @@ export default class levelClient extends dbBaseClient {
             oneofs: true
             });
         const level_proto = grpcLoadPackageDefinition(packageDefinition).level;
-        const client = new level_proto['Level'](
+        this.client = new level_proto['Level'](
             `${ip}:${port}`,
             credentials.createInsecure()
         );
-        return new Promise((resolve,reject)=>{
-            client.ping({ok: true}, (err, response)=> {
-                if(err){return reject(err)}
-                console.log('pong:', response);
-                return resolve(response.ok);
-            });
+        await this.setDB(dbName);
+        return true;
+    }
+    close():Promise<boolean> {
+        return new Promise((reslove,reject)=>{
+            return reslove(true);
         })
     }
 }
