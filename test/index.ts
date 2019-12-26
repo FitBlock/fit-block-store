@@ -4,11 +4,11 @@ const server = level.getServer();
 const client = level.getClient();
 let testUnit = {
     [Symbol('test.getServer')] : async function() {
-       const res = await server.listen('127.0.0.1',5657);
+       const res = await server.listen();
        equal(res, true,'getServer error!')
     },
     [Symbol('test.getClient')] : async function() {
-        const res = await client.conect('127.0.0.1',5657,'test')
+        const res = await client.conect('test')
         equal(res, true,'getClient error!')
     },
     [Symbol('test.ping')] : async function() {

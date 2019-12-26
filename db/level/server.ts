@@ -1,4 +1,5 @@
 import dbBaseServer from '../../dbBaseServer'
+import config from './config'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 import {
     loadPackageDefinition as grpcLoadPackageDefinition,
@@ -14,7 +15,7 @@ export default class levelServer extends dbBaseServer {
         super();
         this.levelDB = levelDB;
     }
-    async listen(ip:string,port: number):Promise<boolean> {
+    async listen():Promise<boolean> {
         const levelProto = pathJoin(__dirname,'level.proto');;
         
         const packageDefinition = protoLoaderLoadSync(
@@ -60,7 +61,7 @@ export default class levelServer extends dbBaseServer {
                 }
             },
         });
-        this.server.bind(`${ip}:${port}`, grpcServerCredentials.createInsecure());
+        this.server.bind(`${config.ip}:${config.port}`, grpcServerCredentials.createInsecure());
         this.server.start();
         return true;
     }

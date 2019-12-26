@@ -1,4 +1,5 @@
 import dbBaseClient from '../../dbBaseClient'
+import config from './config'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 import {
     loadPackageDefinition as grpcLoadPackageDefinition,
@@ -44,7 +45,7 @@ export default class levelClient extends dbBaseClient {
         })
     }
 
-    async conect(ip: string, port: number,dbName:string='default'): Promise<boolean> {
+    async conect(dbName:string='default'): Promise<boolean> {
         const levelProto = pathJoin(__dirname,'level.proto');;
         const packageDefinition = protoLoaderLoadSync(
             levelProto,
@@ -56,7 +57,7 @@ export default class levelClient extends dbBaseClient {
             });
         const level_proto = grpcLoadPackageDefinition(packageDefinition).level;
         this.client = new level_proto['Level'](
-            `${ip}:${port}`,
+            `${config.ip}:${config.port}`,
             credentials.createInsecure()
         );
         await this.setDB(dbName);
