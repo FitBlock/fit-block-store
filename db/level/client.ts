@@ -44,7 +44,9 @@ export default class levelClient extends dbBaseClient {
             });
         })
     }
-
+    async isConect(): Promise<boolean> {
+        return Boolean(this.client)
+    }
     async conect(dbName:string='default'): Promise<boolean> {
         const levelProto = pathJoin(__dirname,'level.proto');;
         const packageDefinition = protoLoaderLoadSync(
