@@ -51,13 +51,13 @@ export default class LevelDB extends dbBase {
         return new Promise((reslove,reject)=>{
             const dataList = []
             this.getDB(dbName).createReadStream(options)
-            .on('data', function (data) {
+            .on('data',  (data) => {
                 dataList.push(data);
               })
-              .on('error', function (err) {
+              .on('error',  (err) => {
                 reject(err)
               })
-              .on('close', function () {
+              .on('close',  () => {
                 reslove(dataList)
               })
         })

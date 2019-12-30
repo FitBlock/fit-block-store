@@ -1,4 +1,4 @@
-import {equal} from 'assert';
+import {equal, deepEqual} from 'assert';
 import level from '../index'
 const server = level.getServer();
 const client = level.getClient();
@@ -16,16 +16,29 @@ let testUnit = {
         equal(res, true,'getClient error!')
     },
     [Symbol('test.put')] : async function() {
-        const res = await client.put('test','test')
-        equal(res, true,'put error!')
+        equal(
+            await client.put('test','test') &&
+            await client.put('test:0','0') &&
+            await client.put('test:9','9')
+        , true,'put error!')
     },
     [Symbol('test.get')] : async function() {
         const res = await client.get('test')
         equal(res, 'test','get error!')
     },
+    [Symbol('test.query')] : async function() {
+        const res = await client.query({gt:'test:',lt:'test:a'})
+        deepEqual(res, [
+            {key:'test:0',value:'0'},
+            {key:'test:9',value:'9'},
+        ],'query error!')
+    },
     [Symbol('test.del')] : async function() {
-        const res = await client.del('test')
-        equal(res, true,'del error!')
+        equal(
+            await client.del('test') &&
+            await client.del('test:0') &&
+            await client.del('test:9')
+            , true,'del error!')
     },
     [Symbol('test.server.close')] : async function() {
         const res = await server.close()

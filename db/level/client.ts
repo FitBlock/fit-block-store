@@ -47,7 +47,11 @@ export default class levelClient extends dbBaseClient {
 
     query(options: any):Promise<Array<any>> {
         return new Promise((resolve,reject)=>{
-            this.client.del({dbName:this.dbName,...options}, (err, response)=> {
+            this.client.query({
+                dbName:this.dbName,
+                reverse:false,
+                limit:-1,
+                ...options}, (err, response)=> {
                 if(err){return reject(err)}
                 return resolve(response.list);
             });
