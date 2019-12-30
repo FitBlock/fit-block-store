@@ -44,6 +44,15 @@ export default class levelClient extends dbBaseClient {
             });
         })
     }
+
+    query(options: any):Promise<Array<any>> {
+        return new Promise((resolve,reject)=>{
+            this.client.del({dbName:this.dbName,...options}, (err, response)=> {
+                if(err){return reject(err)}
+                return resolve(response.list);
+            });
+        })
+    }
     async isConect(): Promise<boolean> {
         return Boolean(this.client)
     }

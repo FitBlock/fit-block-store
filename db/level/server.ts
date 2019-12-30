@@ -60,6 +60,14 @@ export default class levelServer extends dbBaseServer {
                     callback(err);
                 }
             },
+            query: async (call, callback) => {
+                try {
+                    const value = await this.levelDB.query(call.request.dbName,call.request)
+                    callback(null, {list: value});
+                } catch(err) {
+                    callback(err);
+                }
+            },
         });
         this.server.bind(`${config.ip}:${config.port}`, grpcServerCredentials.createInsecure());
         this.server.start();

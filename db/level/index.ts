@@ -47,6 +47,22 @@ export default class LevelDB extends dbBase {
         })
     }
 
+    query(dbName:string,options: any):Promise<Array<any>>  {
+        return new Promise((reslove,reject)=>{
+            const dataList = []
+            this.getDB(dbName).createReadStream(options)
+            .on('data', function (data) {
+                dataList.push(data);
+              })
+              .on('error', function (err) {
+                reject(err)
+              })
+              .on('close', function () {
+                reslove(dataList)
+              })
+        })
+    }
+
     getServer():levelServer {
         return new levelServer(this);
     }

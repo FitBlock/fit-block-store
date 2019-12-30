@@ -6,6 +6,7 @@ service Level {
   rpc get (LevelKey) returns (LevelValue) {}
   rpc put (LevelKeyValue) returns (isOk) {}
   rpc del (LevelKey) returns (isOk) {}
+  rpc query (LevelOptions) returns (isOk) {}
   rpc ping (isOk) returns (isOk) {}
 }
 
@@ -20,6 +21,18 @@ message LevelKey {
   string dbName = 1;
   string key = 2;
 }
+
+message LevelOptions {
+  string dbName = 1;
+  string gt = 2;
+  string lt = 3;
+  bool reverse = 4;
+  uint32 limit = 5;
+}
+
+message LevelKeyValueList {  
+  repeated LevelKeyValue list = 1;  
+}  
 
 message LevelValue {
   string value = 1;
