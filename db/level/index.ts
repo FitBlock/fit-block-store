@@ -1,6 +1,6 @@
 import levelup from 'levelup';
 import leveldown from 'leveldown';
-import dbBase from '../../dbBase'
+import dbBase from '../../types/dbBase'
 import levelClient from './client'
 import levelServer from './server'
 import {dirname as pathDirname, join as pathJoin} from 'path';

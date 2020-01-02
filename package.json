@@ -2,12 +2,14 @@
   "name": "fit-block-store",
   "version": "1.0.0",
   "description": "FitBlock's store component。",
-  "main": "index.js",
+  "main": "build/index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "node ../../build/test/index"
+    "prepare": "npx tsc",
+    "build": "npx tsc",
+    "test": "node ./build/test/index"
   },
   "repository": {
     "type": "git",

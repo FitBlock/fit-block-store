@@ -1,4 +1,4 @@
-import dbBaseClient from '../../dbBaseClient'
+import dbBaseClient from '../../types/dbBaseClient'
 import config from './config'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 import {

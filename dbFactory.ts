@@ -1,5 +1,5 @@
 import Level from './db/level'
-import dbBase from './dbBase'
+import dbBase from './types/dbBase'
 const instanceMap: Map<String, any> = new Map(); 
 export default class dbFactory {
     static getDBInstance(name:string):dbBase {

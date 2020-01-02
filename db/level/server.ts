@@ -1,4 +1,4 @@
-import dbBaseServer from '../../dbBaseServer'
+import dbBaseServer from '../../types/dbBaseServer'
 import config from './config'
 import {dirname as pathDirname, join as pathJoin} from 'path';
 import {
