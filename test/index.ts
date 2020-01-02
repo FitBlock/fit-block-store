@@ -2,7 +2,7 @@ import {equal, deepEqual} from 'assert';
 import level from '../index'
 const server = level.getServer();
 const client = level.getClient();
-let testUnit = {
+const testUnit = {
     [Symbol('test.getServer')] : async function() {
        const res = await server.listen();
        equal(res, true,'getServer error!')
