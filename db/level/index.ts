@@ -15,7 +15,7 @@ export default class LevelDB extends dbBase {
         if(this.dbMap.has(dbName)) {
             return this.dbMap.get(dbName);
         }
-        const dbPath = pathJoin(pathDirname(pathDirname(__dirname)),'data',dbName);
+        const dbPath = pathJoin(pathDirname(pathDirname(__dirname)),'data',`${dbName}.ldb`);
         const db = levelup(leveldown(dbPath));
         this.dbMap.set(dbName, db);
         return db;
