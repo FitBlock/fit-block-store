@@ -30,8 +30,11 @@
   },
   "homepage": "https://github.com/FitBlock/fit-block-store#readme",
   "dependencies": {
-    "level": "^6.0.0",
     "@grpc/proto-loader": "^0.5.3",
-    "grpc": "^1.24.2"
+    "grpc": "^1.24.2",
+    "level": "^6.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.4"
   }
 }
