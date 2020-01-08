@@ -26,13 +26,6 @@ const testUnit = {
         const res = await client.get('test')
         equal(res, 'test','get error!')
     },
-    [Symbol('test.query')] : async function() {
-        const res = await client.query({gt:'test:',lt:'test:a'})
-        deepEqual(res, [
-            {key:'test:0',value:'0'},
-            {key:'test:9',value:'9'},
-        ],'query error!')
-    },
     [Symbol('test.del')] : async function() {
         equal(
             await client.del('test') &&

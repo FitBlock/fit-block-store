@@ -6,7 +6,6 @@ export default abstract class dbBase {
     abstract put(dbName:string,key: string, value:any):Promise<boolean>;
     abstract get(dbName:string,key: string):Promise<any>;
     abstract del(dbName:string,key: string):Promise<boolean>;
-    abstract query(dbName:string,options: any):Promise<Array<any>>;
     abstract getServer():dbBaseServer;
     abstract getClient():dbBaseClient;
 }
