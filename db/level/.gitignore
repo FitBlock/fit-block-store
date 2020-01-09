@@ -1,2 +1,3 @@
 # db data
-data/*.ldb
+data/*
+!data/.gitkeep
