@@ -1,6 +1,6 @@
 import dbBaseClient from '../../types/dbBaseClient'
 import config from './config'
-import {dirname as pathDirname, join as pathJoin} from 'path';
+import {join as pathJoin} from 'path';
 import {
     loadPackageDefinition as grpcLoadPackageDefinition,
     credentials
@@ -61,7 +61,7 @@ export default class levelClient extends dbBaseClient {
         return Boolean(this.client)
     }
     async conect(dbName:string='default'): Promise<boolean> {
-        const levelProto = pathJoin(__dirname,'level.proto');;
+        const levelProto = pathJoin(config.appSrcPath,'level.proto');;
         const packageDefinition = protoLoaderLoadSync(
             levelProto,
             {keepCase: true,

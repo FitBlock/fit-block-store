@@ -1,6 +1,6 @@
 import dbBaseServer from '../../types/dbBaseServer'
 import config from './config'
-import {dirname as pathDirname, join as pathJoin} from 'path';
+import {join as pathJoin} from 'path';
 import {
     loadPackageDefinition as grpcLoadPackageDefinition,
     Server as grpcServer,
@@ -16,7 +16,7 @@ export default class levelServer extends dbBaseServer {
         this.levelDB = levelDB;
     }
     async listen():Promise<boolean> {
-        const levelProto = pathJoin(__dirname,'level.proto');;
+        const levelProto = pathJoin(config.appSrcPath,'level.proto');;
         
         const packageDefinition = protoLoaderLoadSync(
             levelProto,

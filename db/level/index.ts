@@ -3,7 +3,8 @@ import leveldown from 'leveldown';
 import dbBase from '../../types/dbBase'
 import levelClient from './client'
 import levelServer from './server'
-import {dirname as pathDirname, join as pathJoin} from 'path';
+import config from './config'
+import {join as pathJoin} from 'path';
 
 export default class LevelDB extends dbBase {
     dbMap: Map<string,levelup>;
@@ -15,7 +16,7 @@ export default class LevelDB extends dbBase {
         if(this.dbMap.has(dbName)) {
             return this.dbMap.get(dbName);
         }
-        const dbPath = pathJoin(pathDirname(pathDirname(__dirname)),'data',`${dbName}.ldb`);
+        const dbPath = pathJoin(config.appSrcPath,'data',`${dbName}.ldb`);
         const db = levelup(leveldown(dbPath));
         this.dbMap.set(dbName, db);
         return db;
