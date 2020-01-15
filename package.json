@@ -35,6 +35,7 @@
     "level": "^6.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "@types/node": "^12.12.14"
   }
 }
