@@ -1,6 +1,6 @@
 {
   "name": "fit-block-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "FitBlock's store component。",
   "main": "build/index.js",
   "directories": {
