@@ -1,4 +1,4 @@
-import dbBase from './types/dbBase'
+import dbBase from './types/DBBase'
 import Level from './db/level'
 const instanceMap: Map<String, any> = new Map(); 
 export default class dbFactory {

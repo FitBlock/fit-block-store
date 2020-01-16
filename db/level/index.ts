@@ -1,8 +1,8 @@
 import levelup from 'levelup';
 import leveldown from 'leveldown';
-import dbBase from '../../types/dbBase'
-import levelClient from './client'
-import levelServer from './server'
+import dbBase from '../../types/DBBase'
+import levelClient from './Client'
+import levelServer from './Server'
 import config from './config'
 import {join as pathJoin} from 'path';
 
